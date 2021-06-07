@@ -128,7 +128,7 @@ ApplicationWindow {
 
                                         const chunk = JSON.parse(req.responseText).values
                                         for (const v of chunk) {
-                                            lines.append(v.address, v.value);
+                                            lines.insert(v.address, v.address, v.value);
                                         }
                                     }
                                 }
