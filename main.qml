@@ -224,11 +224,11 @@ ApplicationWindow {
                 id: rowRadio
                 RadioButton {
                     property int val: 1
-                    text: "Microsecond"
+                    text: "Microsec"
                 }
                 RadioButton {
                     property int val: 2
-                    text: "Milisecond"
+                    text: "Milisec"
                 }
             }
 
@@ -238,6 +238,7 @@ ApplicationWindow {
             }
 
             RowLayout {
+                Layout.fillWidth: true
                 Slider {
                     id: sliderExposure
                     from: 1
