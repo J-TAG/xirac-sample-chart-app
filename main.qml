@@ -249,13 +249,13 @@ ApplicationWindow {
                     text: "Reset"
                 }
                 Button {
-                    text: "Trigger"
+                    text: "Trig"
                 }
                 Button {
-                    text: "RAM Read"
+                    text: "Load"
                 }
                 Button {
-                    text: "Chart Show"
+                    text: "Chart"
                 }
             }
         }
