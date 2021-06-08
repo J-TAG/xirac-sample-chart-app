@@ -194,17 +194,40 @@ ApplicationWindow {
         GridLayout {
             columns: 2
 
+            // URL
+            Label {
+                Layout.leftMargin: 20
+                Layout.rightMargin: 20
+                text: "Server Address:"
+            }
+            TextField {
+                id: urlControl
+                Layout.fillWidth: true
+                Layout.rightMargin: 20
+                placeholderText: "URL"
+                text: "http://192.168.4.50/write-json"
+                selectByMouse: true
+            }
+
             Label {
                 Layout.leftMargin: 20
                 Layout.rightMargin: 10
                 text: "Exposure Time:"
             }
 
+            ButtonGroup {
+                id: buttonGroupRadio
+                buttons: rowRadio.children
+            }
+
             RowLayout {
+                id: rowRadio
                 RadioButton {
+                    property int val: 1
                     text: "Microsecond"
                 }
                 RadioButton {
+                    property int val: 2
                     text: "Milisecond"
                 }
             }
@@ -234,9 +257,11 @@ ApplicationWindow {
 
             RowLayout {
                 CheckBox {
+                    id: checkBoxPar1
                     text: "Par1"
                 }
                 CheckBox {
+                    id: checkBoxPar2
                     text: "Par2"
                 }
             }
@@ -247,17 +272,40 @@ ApplicationWindow {
                 Button {
                     highlighted: true
                     text: "Reset"
+                    onClicked: sendSimpleRequest(1, buttonGroupRadio.checkedButton ? buttonGroupRadio.checkedButton.val : 0)
                 }
                 Button {
                     text: "Trig"
+                    onClicked: sendSimpleRequest(2, sliderExposure.value)
                 }
                 Button {
                     text: "Load"
+                    onClicked: sendSimpleRequest(3, checkBoxPar1.checked ? 1 : 0)
                 }
                 Button {
                     text: "Chart"
+                    onClicked: sendSimpleRequest(4, checkBoxPar2.checked ? 1 : 0)
                 }
             }
         }
+    }
+
+    function sendSimpleRequest(address, value) {
+        let req = new XMLHttpRequest();
+        req.open("POST", urlControl.text);
+        req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        req.onreadystatechange = function() {
+            if (req.readyState == XMLHttpRequest.DONE) {
+                // what you want to be done when request is successfull
+                console.log("req.responseText", req.responseText)
+            }
+        }
+        req.onerror = function(){
+            // what you want to be done when request failed
+            console.log("Failed", req.responseText)
+        }
+
+        req.send(JSON.stringify({ address, value }));
     }
 }
